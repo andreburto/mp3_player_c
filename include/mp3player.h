@@ -22,22 +22,45 @@
 /* Point size of the status label font. */
 #define STATUS_FONT_POINT_SIZE 14
 
+/* Height of the status bar shown below the buttons, in pixels. */
+#define STATUS_BAR_HEIGHT 24
+
 /* Control identifiers reported through WM_COMMAND. */
 #define ID_BUTTON_LOAD 101
 #define ID_BUTTON_PLAY 102
 #define ID_BUTTON_STOP 103
 #define ID_STATUS_LABEL 104
+#define ID_BUTTON_SKIP_BACK 105
+#define ID_BUTTON_LOOP 106
+#define ID_BUTTON_SKIP_FORWARD 107
+#define ID_STATUS_BAR_LEFT 108
+#define ID_STATUS_BAR_RIGHT 109
 
-/* Per-window state: handles to the three buttons, the status label, and
- * the fonts used to render their text. Stored in GWLP_USERDATA. */
+/* Timer identifier used to periodically refresh the status bar's
+ * position/duration text while a song is playing. */
+#define ID_TIMER_POSITION 1
+/* Interval, in milliseconds, between status bar position refreshes. */
+#define POSITION_TIMER_INTERVAL_MS 500
+
+/* Per-window state: handles to the buttons, status label, status bar
+ * panes, and the fonts used to render their text. Stored in
+ * GWLP_USERDATA. */
 typedef struct AppState
 {
     HWND loadButton;
     HWND playButton;
     HWND stopButton;
     HWND statusLabel;
+    HWND skipBackButton;
+    HWND loopButton;
+    HWND skipForwardButton;
+    HWND statusBarLeft;
+    HWND statusBarRight;
     HFONT buttonFont;
     HFONT statusFont;
+    /* Rotated (90 degree escapement) font used to draw the Loop button's
+     * "8" character sideways; see App_DrawLoopButton in mp3player.c. */
+    HFONT loopButtonFont;
 } AppState;
 
 /* Registers the application window class. Returns TRUE on success. */
